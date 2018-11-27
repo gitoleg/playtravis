@@ -1,0 +1,52 @@
+language: c
+
+sudo: required
+
+addons:
+  apt:
+    sources:
+    - avsm
+    packages:
+    - clang
+    - curl
+    - libcurl4-gnutls-dev
+    - libgmp-dev
+    - libssl-dev
+    - libzip-dev
+    - llvm
+    - llvm-3.8-dev
+    - m4
+    - time
+    - aspcud
+    - dejagnu
+    - jq
+
+cache:
+  directories:
+  - $HOME/.opam
+  - $HOME/save_opam
+  before_cache:
+  - rm -rf $HOME/.opam/log
+
+env:
+  - OPAM_VERSION=2.0 OCAML_VERSION=4.04.1
+  - OPAM_VERSION=2.0 OCAML_VERSION=4.05.1
+  - OPAM_VERSION=2.0 OCAML_VERSION=4.05.0 WITH_BUILD_CACHE=true
+
+stage: Compile
+script: bash -ex .travis_install.sh
+
+jobs:
+  include:
+  - stage: Unit tests, checks and bil tests
+    env:
+    - OPAM_VERSION=2.0 OCAML_VERSION=4.05.0 WITH_BUILD_CACHE=true
+    script: bash -ex .run_travis_tests.sh unit_tests
+  - stage: Unit tests, checks and bil tests
+    env:
+    - OPAM_VERSION=2.0 OCAML_VERSION=4.05.0 WITH_BUILD_CACHE=true
+    script: bash -ex .run_travis_tests.sh checks
+  - stage: Unit tests, checks and bil tests
+    env:
+    - OPAM_VERSION=2.0 OCAML_VERSION=4.05.0 WITH_BUILD_CACHE=true
+    script: bash -ex .run_travis_tests.sh veri
