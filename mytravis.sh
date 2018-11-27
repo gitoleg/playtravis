@@ -70,11 +70,8 @@ which opam
 opam --version
 
 echo "installing $OCAML_VERSION"
-OPAM_SWITCH="ocaml-base-compiler.$OCAML_VERSION"
 export OPAMYES=1
-opam switch list-available
-
-opam init -a git://github.com/ocaml/opam-repository --comp="$OPAM_SWITCH"
+opam init -a git://github.com/ocaml/opam-repository --comp="$OCAML_VERSION"
 
 eval $(opam env)
 which ocaml
@@ -87,14 +84,14 @@ ocaml -version
 ls -la
 opam install depext --yes
 
-upgrade_opam_file
+# upgrade_opam_file
 
-opam depext -y conf-m4
-opam pin add travis-opam https://github.com/ocaml/ocaml-ci-scripts.git#master
-cp ~/.opam/$(opam switch show)/bin/ci-opam ~/
-opam remove -a travis-opam
-mv ~/ci-opam ~/.opam/$(opam switch show)/bin/ci-opam
+# opam depext -y conf-m4
+# opam pin add travis-opam https://github.com/ocaml/ocaml-ci-scripts.git#master
+# cp ~/.opam/$(opam switch show)/bin/ci-opam ~/
+# opam remove -a travis-opam
+# mv ~/ci-opam ~/.opam/$(opam switch show)/bin/ci-opam
 
-echo -en "travis_fold:end:prepare.ci\r"
+# echo -en "travis_fold:end:prepare.ci\r"
 
-opam config exec -- ci-opam
+# opam config exec -- ci-opam
