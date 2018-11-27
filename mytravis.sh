@@ -72,6 +72,8 @@ opam --version
 echo "installing $OCAML_VERSION"
 OPAM_SWITCH="ocaml-base-compiler.$OCAML_VERSION"
 export OPAMYES=1
+opam switch list-available
+
 opam init -a git://github.com/ocaml/opam-repository --comp="$OPAM_SWITCH"
 
 eval $(opam env)
